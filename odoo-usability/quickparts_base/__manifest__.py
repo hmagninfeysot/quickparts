@@ -20,6 +20,7 @@ This module has been written by Honoré Magnin-Feysot from ExNihiloSolution <htt
     'website': 'http://odoo.exnihilosolution.com',
     'depends': [
         'base',
+        'hr_holidays',
         ],
     'data': [
        # 'data/helpdesk_data.xml',

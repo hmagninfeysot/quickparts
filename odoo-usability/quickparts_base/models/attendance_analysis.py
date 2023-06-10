@@ -16,7 +16,7 @@ class attendance_analysis(models.Model):
 
     def action_recalculate_allocation(self):
         self.ensure_one()
-        allocations = self.env['hr.leave.allocation'].search([('name', '=', 'Allocation automatique timbrage'),('x_name_timbrage', '=', self.name)])
+        allocations = self.env['hr.leave.allocation'].search([('name_timbrage', '=', self.name)])
         allocations.write({'state': 'draft'})
         allocations.unlink()
         hours_theo = self.hours_theoretical
@@ -29,5 +29,5 @@ class attendance_analysis(models.Model):
             'allocation_type' : 'regular',
             'number_of_days': nb_days,
             'state' : 'validate',
-            'x_name_timbrage' : self.name,
+            'name_timbrage' : self.name,
         })
