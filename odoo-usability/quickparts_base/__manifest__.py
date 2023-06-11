@@ -21,6 +21,7 @@ This module has been written by Honoré Magnin-Feysot from ExNihiloSolution <htt
     'depends': [
         'base',
         'hr_holidays',
+        'hr',
         ],
     'data': [
        # 'data/helpdesk_data.xml',
