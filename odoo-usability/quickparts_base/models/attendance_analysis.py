@@ -19,15 +19,27 @@ class attendance_analysis(models.Model):
         allocations = self.env['hr.leave.allocation'].search([('name_timbrage', '=', self.name)])
         allocations.write({'state': 'draft'})
         allocations.unlink()
-        hours_theo = self.hours_theoretical
-        nb_days = round((self.gap/hours_theo),2)
-        self.env['hr.leave.allocation'].create({
-            'holiday_type' : 'employee',
-            'employee_id': self.employee_id.id,
-            'name' : 'Allocation automatique timbrage',
-            'holiday_status_id': 6,
-            'allocation_type' : 'regular',
-            'number_of_days': nb_days,
-            'state' : 'validate',
-            'name_timbrage' : self.name,
-        })
+        hours_theo = self.employee_id.resource_calendar_id.hours_per_day
+        nb_days = (self.gap*1)/hours_theo
+        if self.gap != 0:
+            self.env['hr.leave.allocation'].create({
+                'holiday_type' : 'employee',
+                'employee_id': self.employee_id.id,
+                'name' : 'Allocation automatique timbrage',
+                'holiday_status_id': 6,
+                'allocation_type' : 'regular',
+                'number_of_days': nb_days,
+                'state' : 'validate',
+                'name_timbrage' : self.name,
+            })
+        else :
+            self.env['hr.leave.allocation'].create({
+                'holiday_type' : 'employee',
+                'employee_id': self.employee_id.id,
+                'name' : 'Allocation automatique timbrage',
+                'holiday_status_id': 6,
+                'allocation_type' : 'regular',
+                'number_of_days': 0,
+                'state' : 'validate',
+                'name_timbrage' : self.name,
+            })
